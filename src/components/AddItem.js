@@ -1,9 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 const AddItem = ({onAddItem}) => {
-    const [item,setName]= useState('')
-    const [units,setQty]= useState('')
-    const [price,setPrice]= useState('')
+    const [entry,setEntry]= useState ({item:'',units:'',price:''})
+    const { item,units,price} = entry
     const onSubmit =(e)=>{
         e.preventDefault()
         if(!item){
@@ -11,24 +10,22 @@ const AddItem = ({onAddItem}) => {
             return
         }
         onAddItem({item,price:+price,units:+units})
-        setName('')
-        setQty('')
-        setPrice('')
+        setEntry({item:'',units:'',price:''})
     }
     return (
         <form onSubmit={onSubmit}>
             <input type='text' 
             placeholder="Item"
             value ={item}
-            onChange={(e)=> setName(e.target.value)}/>
+            onChange={(e)=> setEntry({...entry,item:e.target.value})}/>
             <input type='text' 
             placeholder="Price"
             value={price}
-            onChange={(e)=> setPrice(e.target.value)}/>
+            onChange={(e)=> setEntry({...entry,price:e.target.value})}/>
             <input type='text'
             placeholder="Quantity"
             value={units}
-            onChange ={(e)=> setQty(e.target.value)}/>
+            onChange ={(e)=> setEntry({...entry,units:e.target.value})}/>
             <input type="submit" vaue="Add Item"/>
         </form>
     )

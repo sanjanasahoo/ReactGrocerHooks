@@ -1,7 +1,7 @@
-import GroceryItem from "./GroceryItem"
+import GroceryRow from "./GroceryRow"
 
 
-const Grocery = ({list,onDelete,onEditItem}) => {
+const GroceryTable = ({list,onDelete,onEditItem}) => {
     
     return (
     <table>
@@ -18,11 +18,11 @@ const Grocery = ({list,onDelete,onEditItem}) => {
     <tbody>
     
     {list.map((item)=>(
-        <GroceryItem item={item} onDelete={onDelete} onEditItem={onEditItem}/>
+        <GroceryRow item={item} onDelete={onDelete} onEditItem={onEditItem}/>
     ))}
     </tbody>
     </table>   
     )
 }
 
-export default Grocery
+export default GroceryTable

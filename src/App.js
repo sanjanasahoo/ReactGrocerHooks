@@ -1,13 +1,12 @@
-import { useState,useEffect} from 'react'
+import { useState} from 'react'
 
 import './App.css';
 import AddItem from './components/AddItem';
-import Grocery from './components/Grocery';
+import GrandTotal from './components/GrandTotal';
+import Grocery from './components/GroceryTable';
 import Header from './components/Header'
 
 function App() {
-  const [setSave, updateSave] = useState(false)
-  useEffect(()=> console.log("Saved"),[setSave])
   const [grocery,setGrocery] =useState([
     {
         id:1,
@@ -25,33 +24,19 @@ function App() {
 function onDeleteItem (id){
   setGrocery(grocery=>grocery.filter(item=>item.id!==id))
 }
-function onEditItem(e,id){
-  e.target.innerText = setSave?"Edit":"Save"
-  e.target.parentNode.parentNode.children[1].contentEditable = setSave?false:true
-  e.target.parentNode.parentNode.children[2].contentEditable = setSave?false:true
-  e.target.parentNode.parentNode.children[3].contentEditable = setSave?false:true
- if(setSave){
-   console.log("can Save")
-   console.log(e.target)
-   const itemName = e.target.parentNode.parentNode.children[1].innerText
-   const itemqty = +e.target.parentNode.parentNode.children[2].innerText
-   const itemPrice = +e.target.parentNode.parentNode.children[3].innerText
- 
-   setGrocery(grocery=> grocery.map(item=>{
+function onEditItem(id,{itemname,units,price}){
+  setGrocery(grocery=> grocery.map(item=>{
     if(item.id === id){
-      item.item = itemName
-      item.price = itemqty
-      item.units = itemPrice
+      item.item = itemname
+      item.price = price
+      item.units = units
   }
   return item
    }))
-   updateSave(setSave=> !setSave)
-  //  e.target.innerText ="Edit"
-  }
- else{ 
-   updateSave(setSave=> !setSave)
-  }
 }
+  
+
+
 
 function addItem(item){
   console.log(item)
@@ -65,6 +50,7 @@ function addItem(item){
      <Header />
      <AddItem onAddItem={addItem}/>
      {grocery.length >0 ? <Grocery list={grocery} onDelete={onDeleteItem} onEditItem={onEditItem}/>:<p>No items</p>}
+     <GrandTotal grocery={grocery}/>
     </div>
   );
 }
